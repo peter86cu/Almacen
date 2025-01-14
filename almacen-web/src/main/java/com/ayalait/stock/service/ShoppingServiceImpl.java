@@ -54,6 +54,32 @@ public class ShoppingServiceImpl implements ShoppingService {
 			return new ResponseEntity<String>(e.getCause().getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
+	
+	
+	/*@Override
+	public ResponseEntity<String> guardarCarrito(String datos) {
+		try {
+			RequestAddCart request = new Gson().fromJson(datos, RequestAddCart.class);
+			RequestAddCart response = new RequestAddCart();
+			List<ShoppingCartDetail> detalle = new ArrayList<ShoppingCartDetail>();
+			response.setCart(daoSHopping.guardarCarrito(request.getCart()));
+
+			if(response.getCart()!=null) {
+				if (!request.getDetalle().isEmpty()) {
+					for (ShoppingCartDetail d : request.getDetalle()) {
+						detalle.add(daoSHopping.guardarCarritoDetalle(d)) ;
+					}
+					response.setDetalle(detalle);
+				}
+			}
+		
+			daoSHopping.actualizarEstadoCart(request.getCart().getIdcart());
+			return new ResponseEntity<String>(new Gson().toJson(response), HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getCause().getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}*/
 
 	@Override
 	public ResponseEntity<String> recuperarCarrito(String idCart, String idUsuario) {

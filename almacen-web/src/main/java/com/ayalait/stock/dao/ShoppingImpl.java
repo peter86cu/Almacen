@@ -33,14 +33,14 @@ public class ShoppingImpl implements ShoppingDao {
 	OrdenPagoJPASpring daoOrden;
 
 	@Override
-	public void guardarCarrito(ShoppingCart cart) {
-		daoCart.save(cart);
+	public ShoppingCart guardarCarrito(ShoppingCart cart) {
+		return daoCart.save(cart);
 		
 	}
 
 	@Override
-	public void guardarCarritoDetalle(ShoppingCartDetail detail) {
-		daoDetalle.save(detail);
+	public ShoppingCartDetail guardarCarritoDetalle(ShoppingCartDetail detail) {
+		return daoDetalle.save(detail);
 		
 	}
 

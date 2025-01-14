@@ -16,8 +16,8 @@ import com.ayalait.stock.modelo.*;
 @Component
 public interface ShoppingDao {
 	
-	void guardarCarrito(ShoppingCart cart);
-	void guardarCarritoDetalle(ShoppingCartDetail detail);
+	ShoppingCart guardarCarrito(ShoppingCart cart);
+	ShoppingCartDetail guardarCarritoDetalle(ShoppingCartDetail detail);
 	
 	ShoppingCart obtenerCarritoCompra(String idCart, String idUsuario);
 	List<ShoppingCartDetail> obtenerDettaleCartProducto(String idcart);
