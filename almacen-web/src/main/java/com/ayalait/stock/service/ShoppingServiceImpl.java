@@ -54,6 +54,32 @@ public class ShoppingServiceImpl implements ShoppingService {
 			return new ResponseEntity<String>(e.getCause().getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
+	
+	
+	/*@Override
+	public ResponseEntity<String> guardarCarrito(String datos) {
+		try {
+			RequestAddCart request = new Gson().fromJson(datos, RequestAddCart.class);
+			RequestAddCart response = new RequestAddCart();
+			List<ShoppingCartDetail> detalle = new ArrayList<ShoppingCartDetail>();
+			response.setCart(daoSHopping.guardarCarrito(request.getCart()));
+
+			if(response.getCart()!=null) {
+				if (!request.getDetalle().isEmpty()) {
+					for (ShoppingCartDetail d : request.getDetalle()) {
+						detalle.add(daoSHopping.guardarCarritoDetalle(d)) ;
+					}
+					response.setDetalle(detalle);
+				}
+			}
+		
+			daoSHopping.actualizarEstadoCart(request.getCart().getIdcart());
+			return new ResponseEntity<String>(new Gson().toJson(response), HttpStatus.OK);
+
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getCause().getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}*/
 
 	@Override
 	public ResponseEntity<String> recuperarCarrito(String idCart, String idUsuario) {
@@ -230,6 +256,26 @@ public class ShoppingServiceImpl implements ShoppingService {
 				error.setCode(10001);
 				return new ResponseEntity<String>(new Gson().toJson(error),
 						HttpStatus.BAD_REQUEST);
+			}
+
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+
+	@Override
+	public ResponseEntity<String> deleteCarbyId(String id) {
+		try {
+			ErrorState error= new ErrorState();
+			int response = daoSHopping.deleteCardbyId(id);
+			if (response>0) {
+				
+				return new ResponseEntity<String>(new Gson().toJson("Carrito eliminado."), HttpStatus.OK);
+			} else {
+				error.setCode(10001);
+				return new ResponseEntity<String>(new Gson().toJson(error),
+						HttpStatus.ACCEPTED);
 			}
 
 		} catch (Exception e) {

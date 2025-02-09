@@ -22,6 +22,8 @@ ResponseEntity<String> obtenerOrdePagoId(String idpago);
 
 ResponseEntity<String> listadoOrdenesPorUsuario(String id);
 
+ResponseEntity<String> deleteCarbyId(String id);
+
 	
 
 

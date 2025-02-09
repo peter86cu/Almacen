@@ -51,6 +51,10 @@ public class Producto implements Serializable {
 	@Column(name="imagen")
 	private String imagen;
 	
+	
+	private int cantidadResenas;
+    private double promedioEstrellas;
+    private int descuentoPorcentaje;
 
 	@Column(name="marca")
 	private int marca;
@@ -60,7 +64,43 @@ public class Producto implements Serializable {
 	
 	private int moneda;
 	
+	private double preciooriginal;
+	
+	private int descuento;
+	
+	private int cuotaspago;
+	
+	@Column(name="porcentaje_mas_vendido")
+	private double porcentajeMasVendido;
+	@Column(name="posicion_mas_vendido")
+	private int posicionMasVendido;
+	
 		
+	public double getPreciooriginal() {
+		return preciooriginal;
+	}
+
+
+	public void setPreciooriginal(double preciooriginal) {
+		this.preciooriginal = preciooriginal;
+	}
+
+
+	public int getCuotaspago() {
+		return cuotaspago;
+	}
+
+
+	public void setCuotaspago(int cuotaspago) {
+		this.cuotaspago = cuotaspago;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
 	public int getMarca() {
 		return marca;
 	}
@@ -232,6 +272,66 @@ public class Producto implements Serializable {
 
 	public void setMoneda(int moneda) {
 		this.moneda = moneda;
+	}
+
+
+	public int getDescuento() {
+		return descuento;
+	}
+
+
+	public void setDescuento(int descuento) {
+		this.descuento = descuento;
+	}
+
+
+	public int getCantidadResenas() {
+		return cantidadResenas;
+	}
+
+
+	public void setCantidadResenas(int cantidadResenas) {
+		this.cantidadResenas = cantidadResenas;
+	}
+
+
+	public double getPromedioEstrellas() {
+		return promedioEstrellas;
+	}
+
+
+	public void setPromedioEstrellas(double promedioEstrellas) {
+		this.promedioEstrellas = promedioEstrellas;
+	}
+
+
+	public int getDescuentoPorcentaje() {
+		return descuentoPorcentaje;
+	}
+
+
+	public void setDescuentoPorcentaje(int descuentoPorcentaje) {
+		this.descuentoPorcentaje = descuentoPorcentaje;
+	}
+
+
+	public double getPorcentajeMasVendido() {
+		return porcentajeMasVendido;
+	}
+
+
+	public void setPorcentajeMasVendido(double porcentajeMasVendido) {
+		this.porcentajeMasVendido = porcentajeMasVendido;
+	}
+
+
+	public int getPosicionMasVendido() {
+		return posicionMasVendido;
+	}
+
+
+	public void setPosicionMasVendido(int posicionMasVendido) {
+		this.posicionMasVendido = posicionMasVendido;
 	}
 
 

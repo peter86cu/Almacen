@@ -35,6 +35,13 @@ public interface ControlStockDao {
 		
 		ProductoDetalles detalleProducto(String idProducto);
 
-	
+		int getStockProductoId(String id);
+		
+		void guardarResena( Review review );
 
+		void guardarPregunta(PreguntaRespuesta preguntaRespuesta );
+		
+		void responderPregunta(PreguntaRespuesta preguntaRespuesta);
+	
+		List<Producto> listadoProductosRelacionados(int idTipoProducto, int idCategoriaProducto);
 }
