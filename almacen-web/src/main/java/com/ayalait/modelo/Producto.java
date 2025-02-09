@@ -20,6 +20,9 @@ public class Producto {
     private int marca;
     private int modelo;
     private int moneda;
+    private int cantidadResenas;
+    private double promedioEstrellas;
+    private int descuentoPorcentaje;
 
     public Producto() {
         super();
@@ -160,6 +163,30 @@ public class Producto {
 
 	public void setMoneda(int moneda) {
 		this.moneda = moneda;
+	}
+
+	public int getCantidadResenas() {
+		return cantidadResenas;
+	}
+
+	public void setCantidadResenas(int cantidadResenas) {
+		this.cantidadResenas = cantidadResenas;
+	}
+
+	public double getPromedioEstrellas() {
+		return promedioEstrellas;
+	}
+
+	public void setPromedioEstrellas(double promedioEstrellas) {
+		this.promedioEstrellas = promedioEstrellas;
+	}
+
+	public int getDescuentoPorcentaje() {
+		return descuentoPorcentaje;
+	}
+
+	public void setDescuentoPorcentaje(int descuentoPorcentaje) {
+		this.descuentoPorcentaje = descuentoPorcentaje;
 	}
 
    

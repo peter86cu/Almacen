@@ -18,7 +18,7 @@ public interface ShoppingCartJpaSpring extends JpaRepository<ShoppingCart, Strin
 	
 	//List<ShoppingCart> findByIdusuario1(String idusuario);
 	
-	@Query(value="SELECT s.* FROM gesventas.shopping_cart s join shopping_cart_detail sd on (s.idcart=sd.idcart) where s.idusuario=:idusuario and s.idhistestado=6", nativeQuery=true)
+	@Query(value="SELECT s.* FROM gesventas.shopping_cart s join shopping_cart_detail sd on (s.idcart=sd.idcart) join shopping_estados_venta sev on(sev.id=s.idhistestado) where s.idusuario=:idusuario and sev.idestado=6", nativeQuery=true)
 	List<ShoppingCart> findByIdusuario( String idusuario);
 	
 	  @Procedure(name = "actualizarEstadoCart")

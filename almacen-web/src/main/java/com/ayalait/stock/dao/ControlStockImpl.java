@@ -18,10 +18,19 @@ public class ControlStockImpl implements ControlStockDao {
 	ProductoJPASpring daoProducto;
 	
 	@Autowired
+	StockJpaSpring daoStock;
+	
+	@Autowired
 	ProductoDetallesJpaSpring daoDetalles;
 	
 	@Autowired
 	ProductoImagenesJpaSpring daoImagen;
+	
+	@Autowired
+	ReviewJPASpring daoReview;
+	
+	@Autowired
+	PreguntaRespuestaJPASpring daoPreguntaRespuesta;
 
 	@Override
 	public void guardarProducto(Producto producto) {
@@ -76,6 +85,36 @@ public class ControlStockImpl implements ControlStockDao {
 	@Override
 	public ProductoDetalles detalleProducto(String idProducto) {
 		return daoDetalles.findAllByIdproducto(idProducto);
+	}
+
+	@Override
+	public int getStockProductoId(String id) {
+		
+		return daoStock.getStockProductoId(id);
+	}
+
+	@Override
+	public void guardarResena( Review review) {
+		       daoReview.save(review);
+		
+	}
+
+	@Override
+	public void guardarPregunta(PreguntaRespuesta preguntaRespuesta) {
+		       daoPreguntaRespuesta.save(preguntaRespuesta);
+		
+	}
+
+	@Override
+	public void responderPregunta(PreguntaRespuesta preguntaRespuesta) {
+		daoPreguntaRespuesta.save(preguntaRespuesta);
+		
+	}
+
+	@Override
+	public List<Producto> listadoProductosRelacionados(int idTipoProducto, int idCategoriaProducto) {
+		// TODO Auto-generated method stub
+		return daoProducto.obtenerProductosRelacionados(idTipoProducto, idCategoriaProducto);
 	}
 	
 	

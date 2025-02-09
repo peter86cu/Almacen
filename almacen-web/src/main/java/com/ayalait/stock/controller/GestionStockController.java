@@ -89,4 +89,24 @@ public class GestionStockController {
 		
 	}
 	
+	
+	@GetMapping(value="productos/stock",produces=MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<String> stockDisponible(@RequestParam("id") String id) {
+		
+		return service.obtenerStockProductoId(id);
+		
+	}
+	
+	
+	@GetMapping(value="productos/productos-relacionados",produces=MediaType.APPLICATION_JSON_VALUE)
+	@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<String> listadoProdutosRelacionados(@RequestParam("idTipoProducto") int idTipoProducto,
+			@RequestParam("idCategoriaProducto") int idCategoriaProducto) {
+		
+		return service.obtenerProductosRelacionados(idTipoProducto, idCategoriaProducto);
+		
+	}
 }

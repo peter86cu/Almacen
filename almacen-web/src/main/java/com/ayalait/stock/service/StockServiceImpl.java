@@ -1,8 +1,8 @@
 package com.ayalait.stock.service;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
+import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +27,9 @@ public class StockServiceImpl implements StockService {
 	
 	@Autowired
 	ControlStockDao daoStock;
+	
+	@Autowired
+	PreguntaRespuestaJPASpring daoPreguntaRespuesta;
 
 	@Override
 	public ResponseEntity<String> addProductos(String producto) {
@@ -48,10 +51,10 @@ public class StockServiceImpl implements StockService {
 				}
 				if(request.getProducto()!=null) {
 					ProductoDetalles detalle=request.getDetalle();
-					if(detalle.getIdproducto()!=null) {
+					//if(detalle.getIdproducto()!=null) {
 						detalle.setIdproducto(request.getProducto().getId());
 						daoStock.guardarProductoDetalle(detalle);
-					}
+					//}
 					
 					
 				}
@@ -156,5 +159,116 @@ public class StockServiceImpl implements StockService {
 			return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
+
+	@Override
+	public ResponseEntity<String> obtenerStockProductoId(String id) {
+		try {
+			int producto=daoStock.getStockProductoId(id);
+			if(producto!=-1) {
+				return new ResponseEntity<String>(new Gson().toJson(producto), HttpStatus.OK);
+			}else {
+				return new ResponseEntity<String>("No hay stock ", HttpStatus.CREATED);
+			}
+			
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> guardarResena(String idProducto, int puntuacion, String comentario) {
+		try {
+			Review review = new Review();
+		    review.setIdProducto(idProducto);
+		    review.setPuntuacion(puntuacion);
+		    review.setComentario(comentario);
+		    daoStock.guardarResena(review);
+
+		    // Actualizar promedio y cantidad
+		    Producto producto = daoStock.recuperarProductoPorId(idProducto);
+		    int nuevaCantidad = producto.getCantidadResenas() + 1;
+		    double nuevoPromedio = (producto.getPromedioEstrellas() * producto.getCantidadResenas() + puntuacion) / nuevaCantidad;
+
+		    producto.setCantidadResenas(nuevaCantidad);
+		    producto.setPromedioEstrellas(nuevoPromedio);
+		    daoStock.guardarProducto(producto);
+		    
+			
+				return new ResponseEntity<String>(new Gson().toJson(producto), HttpStatus.OK);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> guardarPregunta(String idProducto, String idUsuarioPregunta, String pregunta) {
+		try {
+			PreguntaRespuesta preguntaRespuesta = new PreguntaRespuesta();
+		    preguntaRespuesta.setIdProducto(idProducto);
+		    preguntaRespuesta.setIdUsuarioPregunta(idUsuarioPregunta);
+		    preguntaRespuesta.setPregunta(pregunta);
+		    preguntaRespuesta.setEstado(0); // Sin responder
+		    daoStock.guardarPregunta(preguntaRespuesta);
+		    
+			
+				return ResponseEntity.ok(Map.of("code", 200, "message", "Respuesta registrada con éxito"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(Map.of("code", 500, "message", "Error al guardar la respuesta", "error", e.getMessage()));
+		}
+	}
+
+	@Override
+	public ResponseEntity<?> responderPregunta(int idPregunta, String idUsuarioRespuesta, String respuesta) {
+		try {
+			PreguntaRespuesta preguntaRespuesta = daoPreguntaRespuesta.findById(idPregunta).orElseThrow();
+		    preguntaRespuesta.setRespuesta(respuesta);
+		    preguntaRespuesta.setIdUsuarioRespuesta(idUsuarioRespuesta);
+		    preguntaRespuesta.setEstado(1); // Respondida
+		    preguntaRespuesta.setFechaRespuesta(new Timestamp(System.currentTimeMillis()));
+		    daoStock.responderPregunta(preguntaRespuesta);
+			
+				return ResponseEntity.ok(Map.of("code", 200, "message", "Respuesta registrada con éxito"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("code", 500, "message", "Error al guardar la respuesta", "error", e.getMessage()));
+		}
+	}
+
+	@Override
+	public ResponseEntity<String> obtenerPreguntasPorProducto(String idProducto) {
+		
+		try {
+            List<PreguntaRespuesta> preguntas = daoPreguntaRespuesta.findByIdProducto(idProducto);
+            return new ResponseEntity<String>(new Gson().toJson(preguntas), HttpStatus.OK);
+            //return ResponseEntity.ok(Map.of("code", 200, "preguntas", preguntas));
+        } catch (Exception e) {
+            /*return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("code", 500, "message", "Error al obtener las preguntas", "error", e.getMessage()));*/
+			return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+
+        }
+		
+		//return daoPreguntaRespuesta.findByIdProducto(idProducto);
+	}
+
+	@Override
+	public ResponseEntity<String> obtenerProductosRelacionados(int idTipoProducto, int idCategoriaProducto) {
+		try {
+            List<Producto> preguntas = daoStock.listadoProductosRelacionados(idTipoProducto, idCategoriaProducto);
+            return new ResponseEntity<String>(new Gson().toJson(preguntas), HttpStatus.OK);
+            //return ResponseEntity.ok(Map.of("code", 200, "preguntas", preguntas));
+        } catch (Exception e) {
+            /*return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("code", 500, "message", "Error al obtener las preguntas", "error", e.getMessage()));*/
+			return new ResponseEntity<String>(e.getCause().getMessage(), HttpStatus.NOT_ACCEPTABLE);
+
+        }
+	}
+
+	
 
 }

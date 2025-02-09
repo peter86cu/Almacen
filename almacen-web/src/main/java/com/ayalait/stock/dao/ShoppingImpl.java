@@ -99,6 +99,12 @@ public class ShoppingImpl implements ShoppingDao {
 	public List<OrdenPago> listadoOrdenesPorUsuario(String idusuario) {
 		 return daoOrden.findAllByIdusuario(idusuario);
 	}
+
+	@Override
+	public int deleteCardbyId(String id) {
+		// TODO Auto-generated method stub
+		return daoEstadoH.actualizarEstadoYDescripcion(12, "DELETE", id);
+	}
 	
 	
 

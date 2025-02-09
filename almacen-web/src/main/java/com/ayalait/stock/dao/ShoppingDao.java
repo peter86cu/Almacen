@@ -35,6 +35,8 @@ public interface ShoppingDao {
 	
 	List<OrdenPago> listadoOrdenesPorUsuario(String idusuario);
 	
+	int deleteCardbyId(String id);
+	
 	/*FacturaCompra obtenerFacturaCompraPorId(int id);
 	void guardarDetalleFactura(DetalleFacturaCompra detalle);
 	DetalleFacturaCompra recuperarDetalleFactura(int id);*/
